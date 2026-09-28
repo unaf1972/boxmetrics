@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etsy, Shopify & Amazon Fee Calculator | Seller Profit Calculator</title>
+  <meta name="description" content="Free seller fee calculator for Etsy, Shopify, and Amazon. Calculate platform fees, payment processing, and your true net profit per order.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header>
+  <h1><a href="../index.html">ShipCalc Tools</a></h1>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="dimensional-weight-calculator.html">DIM Weight</a>
+    <a href="box-fill-calculator.html">Box Fill</a>
+    <a href="pallet-layer-calculator.html">Pallet Layer</a>
+    <a href="seller-fee-calculator.html">Seller Fees</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>Seller Fee & Profit Calculator</h2>
+  <p>Find out your true profit per order after platform fees, payment processing, and shipping.</p>
+</section>
+
+<div class="container">
+
+  <div class="calculator-card">
+    <h3>Enter Your Order Details</h3>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="platform">Selling Platform</label>
+        <select id="platform">
+          <option value="etsy">Etsy</option>
+          <option value="shopify">Shopify</option>
+          <option value="amazon">Amazon (FBM)</option>
+          <option value="ebay">eBay</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="sellPrice">Selling Price ($)</label>
+        <input type="number" id="sellPrice" placeholder="e.g., 29.99" min="0" step="0.01">
+      </div>
+      <div class="form-group">
+        <label for="productCost">Product Cost ($)</label>
+        <input type="number" id="productCost" placeholder="e.g., 8.00" min="0" step="0.01">
+      </div>
+      <div class="form-group">
+        <label for="shippingCost">Shipping Cost You Pay ($)</label>
+        <input type="number" id="shippingCost" placeholder="e.g., 4.50" min="0" step="0.01">
+      </div>
+      <div class="form-group">
+        <label for="shippingCharged">Shipping Charged to Buyer ($)</label>
+        <input type="number" id="shippingCharged" placeholder="e.g., 5.00" min="0" step="0.01">
+      </div>
+      <div class="form-group">
+        <label for="adSpend">Ad / Promo Spend ($)</label>
+        <input type="number" id="adSpend" placeholder="e.g., 0" min="0" step="0.01">
+      </div>
+    </div>
+
+    <button class="calculate-btn" onclick="calculateFees()">Calculate Net Profit</button>
+
+    <div class="results" id="results">
+      <h4>Your Results</h4>
+      <div class="result-row">
+        <span class="label">Gross Revenue</span>
+        <span class="value" id="revenueResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Platform Fee</span>
+        <span class="value" id="platformFeeResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Payment Processing</span>
+        <span class="value" id="paymentFeeResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Total Deductions</span>
+        <span class="value" id="totalFeesResult">—</span>
+      </div>
+      <div class="highlight">
+        <div class="result-row">
+          <span class="label"><strong>Net Profit</strong></span>
+          <span class="value" id="netProfitResult">—</span>
+        </div>
+        <div class="result-row">
+          <span class="label"><strong>Profit Margin</strong></span>
+          <span class="value" id="marginResult">—</span>
+        </div>
+        <p style="font-size:0.9rem; color:#555; margin-top:0.5rem;" id="profitNote"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>How Seller Fees Work</h3>
+    <p>Every marketplace takes a cut. This calculator estimates the most common fees so you can see your true profit per order.</p>
+
+    <h4>Fee Structure (approximate)</h4>
+    <table>
+      <thead><tr><th>Platform</th><th>Platform Fee</th><th>Payment Processing</th></tr></thead>
+      <tbody>
+        <tr><td>Etsy</td><td>6.5%</td><td>3% + $0.25</td></tr>
+        <tr><td>Shopify</td><td>0%</td><td>2.9% + $0.30</td></tr>
+        <tr><td>Amazon (FBM)</td><td>15%</td><td>Included</td></tr>
+        <tr><td>eBay</td><td>13%</td><td>Included</td></tr>
+      </tbody>
+    </table>
+    <p><em>Note: Real fees vary by category, region, and account type. Always confirm with your platform's latest fee schedule.</em></p>
+
+    <h4>The Formula</h4>
+    <p><strong>Net Profit = (Selling Price + Shipping Charged) − (Platform Fee + Payment Fee + Product Cost + Shipping Cost + Ad Spend)</strong></p>
+  </div>
+
+  <div class="content-section">
+    <h3>Frequently Asked Questions</h3>
+
+    <h4>What are Etsy's fees in 2026?</h4>
+    <p>Etsy charges a 6.5% transaction fee on the total order (including shipping), plus a payment processing fee of roughly 3% + $0.25. There's also a $0.20 listing fee per item.</p>
+
+    <h4>Does Shopify charge a transaction fee?</h4>
+    <p>Shopify doesn't charge a per-sale transaction fee if you use Shopify Payments. If you use a third-party gateway, they charge an additional 0.5%–2%.</p>
+
+    <h4>How do I know if I'm profitable?</h4>
+    <p>A healthy profit margin for e-commerce is 15–30%. Below 10% is risky — a single return or ad spike can wipe out your profit.</p>
+  </div>
+
+  <div class="affiliate-box">
+    <h4>Recommended: E-commerce Accounting Software</h4>
+    <p>Track your real profits automatically with tools that sync to Etsy, Shopify, and Amazon.</p>
+    <a href="https://www.amazon.com/s?k=ecommerce+accounting+software" target="_blank" rel="noopener">View on Amazon →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 ShipCalc Tools. Last verified: January 2026.</p>
+</footer>
+
+<script>
+function calculateFees() {
+  const platform = document.getElementById('platform').value;
+  const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+  const productCost = parseFloat(document.getElementById('productCost').value) || 0;
+  const shippingCost = parseFloat(document.getElementById('shippingCost').value) || 0;
+  const shippingCharged = parseFloat(document.getElementById('shippingCharged').value) || 0;
+  const adSpend = parseFloat(document.getElementById('adSpend').value) || 0;
+
+  if (!sellPrice) {
+    alert('Please enter a selling price.');
+    return;
+  }
+
+  const feeStructures = {
+    etsy:    { platformPct: 0.065, payPct: 0.03, payFlat: 0.25 },
+    shopify: { platformPct: 0,     payPct: 0.029, payFlat: 0.30 },
+    amazon:  { platformPct: 0.15,  payPct: 0,    payFlat: 0 },
+    ebay:    { platformPct: 0.13,  payPct: 0,    payFlat: 0 },
+    custom:  { platformPct: 0.10,  payPct: 0.029, payFlat: 0.30 }
+  };
+
+  const fees = feeStructures[platform];
+  const grossRevenue = sellPrice + shippingCharged;
+  const platformFee = grossRevenue * fees.platformPct;
+  const paymentFee = grossRevenue * fees.payPct + fees.payFlat;
+  const totalFees = platformFee + paymentFee;
+  const totalCosts = productCost + shippingCost + adSpend;
+  const netProfit = grossRevenue - totalFees - totalCosts;
+  const margin = grossRevenue > 0 ? (netProfit / grossRevenue) * 100 : 0;
+
+  document.getElementById('revenueResult').textContent = '$' + grossRevenue.toFixed(2);
+  document.getElementById('platformFeeResult').textContent = '-$' + platformFee.toFixed(2);
+  document.getElementById('paymentFeeResult').textContent = '-$' + paymentFee.toFixed(2);
+  document.getElementById('totalFeesResult').textContent = '-$' + totalFees.toFixed(2);
+  document.getElementById('netProfitResult').textContent = '$' + netProfit.toFixed(2);
+  document.getElementById('marginResult').textContent = margin.toFixed(1) + '%';
+
+  let note;
+  if (netProfit <= 0) note = 'Warning: You are losing money on this sale. Raise your price, reduce costs, or cut ad spend.';
+  else if (margin < 10) note = 'Thin margin. A return or price cut could wipe out your profit.';
+  else if (margin < 20) note = 'Modest margin. Acceptable, but consider optimizing.';
+  else if (margin < 35) note = 'Healthy margin. You have room to scale.';
+  else note = 'Excellent margin. Consider raising ad spend to grow volume.';
+
+  document.getElementById('profitNote').textContent = note;
+  document.getElementById('results').classList.add('show');
+}
+</script>
+
+</body>
+</html>
