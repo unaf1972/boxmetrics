@@ -1,0 +1,25 @@
+<svg width="800" height="220" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="boxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(40,35)">
+    <polygon points="60,20 120,50 60,80 0,50" fill="#3B82F6"/>
+    <polygon points="60,80 120,50 120,110 60,140" fill="#2563EB"/>
+    <polygon points="0,50 60,80 60,140 0,110" fill="#1D4ED8"/>
+    <line x1="-15" y1="50" x2="-15" y2="112" stroke="#F59E0B" stroke-width="3"/>
+    <polygon points="-20,55 -15,45 -10,55" fill="#F59E0B"/>
+    <polygon points="-20,107 -15,117 -10,107" fill="#F59E0B"/>
+    <line x1="5" y1="155" x2="115" y2="155" stroke="#F59E0B" stroke-width="3"/>
+    <polygon points="10,150 0,155 10,160" fill="#F59E0B"/>
+    <polygon points="110,150 120,155 110,160" fill="#F59E0B"/>
+    <text x="60" y="95" font-family="Segoe UI, Arial" font-size="32" font-weight="bold" text-anchor="middle" fill="white">BM</text>
+  </g>
+
+  <text x="210" y="95" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700" fill="#0F172A">Box</text>
+  <text x="330" y="95" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700" fill="#2563EB">Metrics</text>
+  <text x="214" y="135" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#64748B">Freight Weight • Box Dimensions • Fee Calculator</text>
+</svg>
