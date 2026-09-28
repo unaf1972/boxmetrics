@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dimensional Weight Calculator | Free DIM Weight Tool for USPS, UPS, FedEx, DHL</title>
+  <meta name="description" content="Free dimensional weight calculator for USPS, UPS, FedEx, and DHL. Instantly calculate DIM weight, billable weight, and see if you're overpaying for shipping.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header>
+  <h1><a href="../index.html">ShipCalc Tools</a></h1>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="dimensional-weight-calculator.html">DIM Weight</a>
+    <a href="box-fill-calculator.html">Box Fill</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>Dimensional Weight Calculator</h2>
+  <p>Instantly calculate DIM weight and billable weight for USPS, UPS, FedEx, and DHL. Stop overpaying for shipping.</p>
+</section>
+
+<div class="container">
+
+  <div class="calculator-card">
+    <h3>Enter Your Package Details</h3>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="length">Length (inches)</label>
+        <input type="number" id="length" placeholder="e.g., 12" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="width">Width (inches)</label>
+        <input type="number" id="width" placeholder="e.g., 10" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="height">Height (inches)</label>
+        <input type="number" id="height" placeholder="e.g., 8" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="actualWeight">Actual Weight (lbs)</label>
+        <input type="number" id="actualWeight" placeholder="e.g., 3" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="carrier">Carrier</label>
+        <select id="carrier">
+          <option value="usps">USPS</option>
+          <option value="ups">UPS</option>
+          <option value="fedex">FedEx</option>
+          <option value="dhl">DHL</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="calculate-btn" onclick="calculateDimWeight()">Calculate DIM Weight</button>
+
+    <div class="results" id="results">
+      <h4>Your Results</h4>
+      <div class="result-row">
+        <span class="label">Volume</span>
+        <span class="value" id="volumeResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">DIM Weight</span>
+        <span class="value" id="dimWeightResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Actual Weight</span>
+        <span class="value" id="actualWeightResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Carrier</span>
+        <span class="value" id="carrierResult">—</span>
+      </div>
+      <div class="highlight">
+        <div class="result-row">
+          <span class="label"><strong>Billable Weight</strong></span>
+          <span class="value" id="billableWeightResult">—</span>
+        </div>
+        <p style="font-size:0.9rem; color:#555; margin-top:0.5rem;" id="billableNote"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>How Dimensional Weight Works</h3>
+    <p>Dimensional weight (DIM weight) is a pricing technique used by shipping carriers. It reflects the amount of space a package occupies in relation to its actual weight. Carriers charge based on the greater of the two.</p>
+
+    <h4>The Formula</h4>
+    <p><strong>DIM Weight = (Length × Width × Height) ÷ DIM Divisor</strong></p>
+
+    <h4>DIM Divisors by Carrier</h4>
+    <table>
+      <thead><tr><th>Carrier</th><th>DIM Divisor</th></tr></thead>
+      <tbody>
+        <tr><td>USPS</td><td>166</td></tr>
+        <tr><td>UPS</td><td>139</td></tr>
+        <tr><td>FedEx</td><td>139</td></tr>
+        <tr><td>DHL</td><td>139</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="content-section">
+    <h3>Frequently Asked Questions</h3>
+
+    <h4>What is billable weight?</h4>
+    <p>Billable weight is the weight the carrier uses to calculate your shipping cost. It's the greater of actual weight or dimensional weight, rounded up.</p>
+
+    <h4>Does USPS use dimensional weight?</h4>
+    <p>USPS uses DIM weight for packages larger than 1 cubic foot (1,728 cubic inches). The DIM divisor is 166.</p>
+
+    <h4>How can I reduce my DIM weight?</h4>
+    <p>Use smaller boxes, eliminate excess void fill, and choose packaging that fits your product tightly.</p>
+  </div>
+
+  <div class="affiliate-box">
+    <h4>Recommended: Digital Shipping Scale</h4>
+    <p>Get precise actual weight readings to pair with your DIM weight calculations.</p>
+    <a href="https://www.amazon.com/s?k=digital+shipping+scale" target="_blank" rel="noopener">View on Amazon →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 ShipCalc Tools. Last verified: January 2026.</p>
+</footer>
+
+<script>
+function calculateDimWeight() {
+  const length = parseFloat(document.getElementById('length').value);
+  const width = parseFloat(document.getElementById('width').value);
+  const height = parseFloat(document.getElementById('height').value);
+  const actualWeight = parseFloat(document.getElementById('actualWeight').value);
+  const carrier = document.getElementById('carrier').value;
+
+  if (!length || !width || !height || !actualWeight) {
+    alert('Please fill in all fields with valid numbers.');
+    return;
+  }
+
+  const divisors = { usps: 166, ups: 139, fedex: 139, dhl: 139 };
+  const carrierNames = { usps: 'USPS', ups: 'UPS', fedex: 'FedEx', dhl: 'DHL' };
+
+  const volume = length * width * height;
+  const dimWeight = volume / divisors[carrier];
+  const billableWeight = Math.ceil(Math.max(dimWeight, actualWeight));
+
+  document.getElementById('volumeResult').textContent = volume.toFixed(2) + ' cu in';
+  document.getElementById('dimWeightResult').textContent = dimWeight.toFixed(2) + ' lbs';
+  document.getElementById('actualWeightResult').textContent = actualWeight.toFixed(2) + ' lbs';
+  document.getElementById('carrierResult').textContent = carrierNames[carrier];
+  document.getElementById('billableWeightResult').textContent = billableWeight + ' lbs';
+
+  const note = dimWeight > actualWeight
+    ? 'You are being charged by DIM weight — your package takes up more space than its weight justifies. Consider a smaller box.'
+    : 'You are being charged by actual weight. Your package is dense enough that DIM weight does not apply.';
+
+  document.getElementById('billableNote').textContent = note;
+  document.getElementById('results').classList.add('show');
+}
+</script>
+
+</body>
+</html>

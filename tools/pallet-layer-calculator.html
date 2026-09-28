@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pallet Layer Calculator | Cartons Per Pallet & Layers Calculator</title>
+  <meta name="description" content="Free pallet layer calculator. Find out how many cartons fit per layer, how many layers fit on a pallet, and total cartons per pallet.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header>
+  <h1><a href="../index.html">ShipCalc Tools</a></h1>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="dimensional-weight-calculator.html">DIM Weight</a>
+    <a href="box-fill-calculator.html">Box Fill</a>
+    <a href="pallet-layer-calculator.html">Pallet Layer</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>Pallet Layer Calculator</h2>
+  <p>Calculate cartons per layer, layers per pallet, and total cartons per pallet for standard shipping pallets.</p>
+</section>
+
+<div class="container">
+
+  <div class="calculator-card">
+    <h3>Carton & Pallet Dimensions</h3>
+
+    <h4 style="margin-bottom:0.8rem; color:#0f3460;">Carton Dimensions (inches)</h4>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="cLength">Carton Length</label>
+        <input type="number" id="cLength" placeholder="e.g., 12" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="cWidth">Carton Width</label>
+        <input type="number" id="cWidth" placeholder="e.g., 10" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="cHeight">Carton Height</label>
+        <input type="number" id="cHeight" placeholder="e.g., 8" min="0" step="0.1">
+      </div>
+    </div>
+
+    <h4 style="margin:1rem 0 0.8rem; color:#0f3460;">Pallet Dimensions</h4>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="palletType">Pallet Type</label>
+        <select id="palletType" onchange="setPalletSize()">
+          <option value="48x40">Standard US (48" × 40")</option>
+          <option value="48x48">Square (48" × 48")</option>
+          <option value="42x42">Euro 2 (42" × 42")</option>
+          <option value="47x39">Euro (47" × 39")</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="pLength">Pallet Length (inches)</label>
+        <input type="number" id="pLength" value="48" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="pWidth">Pallet Width (inches)</label>
+        <input type="number" id="pWidth" value="40" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="maxHeight">Max Load Height (inches)</label>
+        <input type="number" id="maxHeight" value="60" min="0" step="0.1">
+      </div>
+    </div>
+
+    <button class="calculate-btn" onclick="calculatePallet()">Calculate Pallet Load</button>
+
+    <div class="results" id="results">
+      <h4>Your Results</h4>
+      <div class="result-row">
+        <span class="label">Cartons per Layer</span>
+        <span class="value" id="perLayerResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Layers per Pallet</span>
+        <span class="value" id="layersResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Pallet Footprint</span>
+        <span class="value" id="footprintResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Carton Footprint</span>
+        <span class="value" id="cartonFootprintResult">—</span>
+      </div>
+      <div class="highlight">
+        <div class="result-row">
+          <span class="label"><strong>Total Cartons per Pallet</strong></span>
+          <span class="value" id="totalCartonsResult">—</span>
+        </div>
+        <p style="font-size:0.9rem; color:#555; margin-top:0.5rem;" id="palletNote"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>How Pallet Loading Works</h3>
+    <p>This calculator estimates how many cartons fit on a pallet based on carton dimensions, pallet size, and maximum load height. It tries both orientations (length-wise and width-wise) and picks the one that fits the most cartons per layer.</p>
+
+    <h4>The Formulas</h4>
+    <p><strong>Cartons per Layer = max( orientation A, orientation B )</strong></p>
+    <p>Where orientation A uses carton length along pallet length, and orientation B uses carton length along pallet width.</p>
+    <p><strong>Layers per Pallet = floor( Max Load Height ÷ Carton Height )</strong></p>
+    <p><strong>Total Cartons = Cartons per Layer × Layers per Pallet</strong></p>
+
+    <h4>Standard Pallet Sizes</h4>
+    <table>
+      <thead><tr><th>Pallet Type</th><th>Dimensions</th></tr></thead>
+      <tbody>
+        <tr><td>Standard US</td><td>48" × 40"</td></tr>
+        <tr><td>Square</td><td>48" × 48"</td></tr>
+        <tr><td>Euro 2</td><td>42" × 42"</td></tr>
+        <tr><td>Euro</td><td>47" × 39"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="content-section">
+    <h3>Frequently Asked Questions</h3>
+
+    <h4>What is a standard pallet size?</h4>
+    <p>The most common pallet in North America is 48" × 40" (GMA pallet). Euro pallets are 47" × 39", and square pallets are 48" × 48".</p>
+
+    <h4>How high can I stack a pallet?</h4>
+    <p>Standard truck height allows up to 110" total including the pallet (usually 5-6" tall). For warehouse storage, 60" of load height is common, but check your carrier's limits.</p>
+
+    <h4>Why does orientation matter?</h4>
+    <p>Rotating cartons can significantly change how many fit per layer. Always test both orientations in your layout.</p>
+  </div>
+
+  <div class="affiliate-box">
+    <h4>Recommended: Pallet Wrap & Strapping</h4>
+    <p>Secure your pallet load with stretch film and strapping sized for your shipment.</p>
+    <a href="https://www.amazon.com/s?k=pallet+stretch+wrap" target="_blank" rel="noopener">View on Amazon →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 ShipCalc Tools. Last verified: January 2026.</p>
+</footer>
+
+<script>
+function setPalletSize() {
+  const type = document.getElementById('palletType').value;
+  const sizes = {
+    '48x40': [48, 40],
+    '48x48': [48, 48],
+    '42x42': [42, 42],
+    '47x39': [47, 39]
+  };
+  if (sizes[type]) {
+    document.getElementById('pLength').value = sizes[type][0];
+    document.getElementById('pWidth').value = sizes[type][1];
+  }
+}
+
+function calculatePallet() {
+  const cL = parseFloat(document.getElementById('cLength').value);
+  const cW = parseFloat(document.getElementById('cWidth').value);
+  const cH = parseFloat(document.getElementById('cHeight').value);
+  const pL = parseFloat(document.getElementById('pLength').value);
+  const pW = parseFloat(document.getElementById('pWidth').value);
+  const maxH = parseFloat(document.getElementById('maxHeight').value);
+
+  if (!cL || !cW || !cH || !pL || !pW || !maxH) {
+    alert('Please fill in all fields with valid numbers.');
+    return;
+  }
+
+  // Orientation A: carton length along pallet length
+  const aFitL = Math.floor(pL / cL);
+  const aFitW = Math.floor(pW / cW);
+  const perLayerA = aFitL * aFitW;
+
+  // Orientation B: carton length along pallet width
+  const bFitL = Math.floor(pL / cW);
+  const bFitW = Math.floor(pW / cL);
+  const perLayerB = bFitL * bFitW;
+
+  const perLayer = Math.max(perLayerA, perLayerB);
+  const layers = Math.floor(maxH / cH);
+  const total = perLayer * layers;
+
+  const palletFootprint = pL * pW;
+  const cartonFootprint = cL * cW;
+
+  document.getElementById('perLayerResult').textContent = perLayer + ' cartons';
+  document.getElementById('layersResult').textContent = layers + ' layers';
+  document.getElementById('footprintResult').textContent = palletFootprint.toFixed(2) + ' sq in';
+  document.getElementById('cartonFootprintResult').textContent = cartonFootprint.toFixed(2) + ' sq in';
+  document.getElementById('totalCartonsResult').textContent = total + ' cartons';
+
+  let note;
+  if (perLayer === 0) note = 'Cartons are too large for this pallet size. Try a larger pallet or smaller cartons.';
+  else if (layers === 0) note = 'Cartons are taller than the max load height. Increase max height or use shorter cartons.';
+  else if (perLayerA >= perLayerB) note = 'Best orientation: carton length runs along the pallet length.';
+  else note = 'Best orientation: carton length runs along the pallet width (rotated).';
+
+  document.getElementById('palletNote').textContent = note;
+  document.getElementById('results').classList.add('show');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Box Fill Calculator | How Many Items Fit in a Box?</title>
+  <meta name="description" content="Free box fill calculator. Find out how many products fit in a shipping box, plus how much void fill you need.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header>
+  <h1><a href="../index.html">ShipCalc Tools</a></h1>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="dimensional-weight-calculator.html">DIM Weight</a>
+    <a href="box-fill-calculator.html">Box Fill</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>Box Fill Calculator</h2>
+  <p>Enter your product and box dimensions to see how many items fit and how much void fill you need.</p>
+</section>
+
+<div class="container">
+
+  <div class="calculator-card">
+    <h3>Product & Box Dimensions</h3>
+
+    <h4 style="margin-bottom:0.8rem; color:#0f3460;">Product Dimensions (inches)</h4>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="pLength">Product Length</label>
+        <input type="number" id="pLength" placeholder="e.g., 4" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="pWidth">Product Width</label>
+        <input type="number" id="pWidth" placeholder="e.g., 3" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="pHeight">Product Height</label>
+        <input type="number" id="pHeight" placeholder="e.g., 2" min="0" step="0.1">
+      </div>
+    </div>
+
+    <h4 style="margin:1rem 0 0.8rem; color:#0f3460;">Box Dimensions (inches)</h4>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="bLength">Box Length</label>
+        <input type="number" id="bLength" placeholder="e.g., 12" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="bWidth">Box Width</label>
+        <input type="number" id="bWidth" placeholder="e.g., 10" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="bHeight">Box Height</label>
+        <input type="number" id="bHeight" placeholder="e.g., 8" min="0" step="0.1">
+      </div>
+    </div>
+
+    <button class="calculate-btn" onclick="calculateBoxFill()">Calculate Box Fill</button>
+
+    <div class="results" id="results">
+      <h4>Your Results</h4>
+      <div class="result-row">
+        <span class="label">Products per Box (ideal fit)</span>
+        <span class="value" id="fitResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Box Volume</span>
+        <span class="value" id="boxVolumeResult">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Product Volume (total)</span>
+        <span class="value" id="productVolumeResult">—</span>
+      </div>
+      <div class="highlight">
+        <div class="result-row">
+          <span class="label"><strong>Void Fill Space</strong></span>
+          <span class="value" id="voidFillResult">—</span>
+        </div>
+        <p style="font-size:0.9rem; color:#555; margin-top:0.5rem;" id="fillNote"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>How Box Fill Works</h3>
+    <p>This calculator divides the box dimensions by the product dimensions to estimate how many items fit in a single orientation. Real-world packing may allow more or fewer items depending on product shape and packing method.</p>
+
+    <h4>The Formula</h4>
+    <p><strong>Items per Box = floor(L ÷ pL) × floor(W ÷ pW) × floor(H ÷ pH)</strong></p>
+    <p>Void fill space is calculated as box volume minus total product volume.</p>
+  </div>
+
+  <div class="affiliate-box">
+    <h4>Recommended: Bubble Wrap & Void Fill</h4>
+    <p>Protect your products with the right amount of void fill. Sized to match your calculation.</p>
+    <a href="https://www.amazon.com/s?k=bubble+wrap+void+fill" target="_blank" rel="noopener">View on Amazon →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 ShipCalc Tools.</p>
+</footer>
+
+<script>
+function calculateBoxFill() {
+  const pL = parseFloat(document.getElementById('pLength').value);
+  const pW = parseFloat(document.getElementById('pWidth').value);
+  const pH = parseFloat(document.getElementById('pHeight').value);
+  const bL = parseFloat(document.getElementById('bLength').value);
+  const bW = parseFloat(document.getElementById('bWidth').value);
+  const bH = parseFloat(document.getElementById('bHeight').value);
+
+  if (!pL || !pW || !pH || !bL || !bW || !bH) {
+    alert('Please fill in all fields with valid numbers.');
+    return;
+  }
+
+  const fitL = Math.floor(bL / pL);
+  const fitW = Math.floor(bW / pW);
+  const fitH = Math.floor(bH / pH);
+  const totalItems = fitL * fitW * fitH;
+
+  const boxVolume = bL * bW * bH;
+  const productVolume = totalItems * (pL * pW * pH);
+  const voidFill = boxVolume - productVolume;
+  const voidFillPct = ((voidFill / boxVolume) * 100).toFixed(1);
+
+  document.getElementById('fitResult').textContent = totalItems + ' items';
+  document.getElementById('boxVolumeResult').textContent = boxVolume.toFixed(2) + ' cu in';
+  document.getElementById('productVolumeResult').textContent = productVolume.toFixed(2) + ' cu in';
+  document.getElementById('voidFillResult').textContent = voidFill.toFixed(2) + ' cu in (' + voidFillPct + '%)';
+
+  let note;
+  if (voidFillPct < 10) note = 'Excellent fit. Minimal void fill needed.';
+  else if (voidFillPct < 30) note = 'Good fit. A modest amount of void fill will secure the items.';
+  else if (voidFillPct < 50) note = 'Loose fit. Consider a smaller box or more void fill.';
+  else note = 'Very loose fit. DIM weight charges may apply — consider a smaller box.';
+
+  document.getElementById('fillNote').textContent = note;
+  document.getElementById('results').classList.add('show');
+}
+</script>
+
+</body>
+</html>
